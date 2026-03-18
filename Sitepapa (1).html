@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JDALS Électricité - Expert Électricité & Éclairage Public</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary-blue: #2B9FE3;
+            --dark-bg: #1a1a1a;
+            --darker-bg: #0d0d0d;
+            --light-gray: #e0e0e0;
+            --accent-cyan: #00d9ff;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: var(--light-gray);
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.03; z-index: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 50px, var(--primary-blue) 50px, var(--primary-blue) 51px),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, var(--primary-blue) 50px, var(--primary-blue) 51px);
+            animation: slidePattern 20s linear infinite;
+        }
+
+        @keyframes slidePattern {
+            0% { transform: translate(0,0); }
+            100% { transform: translate(50px,50px); }
+        }
+
+        header {
+            position: relative; z-index: 10;
+            background: linear-gradient(180deg, rgba(13,13,13,0.95) 0%, rgba(26,26,26,0.9) 100%);
+            border-bottom: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 20px rgba(43,159,227,0.3);
+        }
+
+        nav {
+            max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900;
+            color: var(--primary-blue); letter-spacing: 4px;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 5px var(--primary-blue)); }
+            100% { filter: drop-shadow(0 0 15px var(--accent-cyan)); }
+        }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+        .nav-links a {
+            color: var(--light-gray); text-decoration: none; font-weight: 600;
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.3s ease; position: relative;
+        }
+
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px; background: var(--primary-blue); transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .hero {
+            position: relative; z-index: 1; max-width: 1400px; margin: 0 auto;
+            padding: 8rem 2rem 6rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900;
+            margin-bottom: 1rem; line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem; font-weight: 300; color: var(--light-gray);
+            margin-bottom: 2rem; animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem; line-height: 1.8; margin-bottom: 3rem;
+            color: rgba(224,224,224,0.8); animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(26,26,26,0.9), rgba(13,13,13,0.95));
+            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 3rem;
+            box-shadow: 0 10px 40px rgba(43,159,227,0.2);
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+            position: relative; overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(43,159,227,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .contact-card h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--primary-blue);
+            margin-bottom: 1.5rem; position: relative; z-index: 1;
+        }
+
+        .contact-info { position: relative; z-index: 1; }
+
+        .contact-item {
+            display: flex; align-items: center; margin-bottom: 1.5rem;
+            font-size: 1.1rem; transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover { transform: translateX(10px); }
+
+        .icon { width: 24px; height: 24px; margin-right: 1rem; color: var(--primary-blue); }
+
+        .cta-button {
+            display: inline-block; margin-top: 2rem; padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: white; text-decoration: none; border-radius: 50px;
+            font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(43,159,227,0.4); transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.8s backwards;
+            cursor: pointer; border: none; font-family: 'Exo 2', sans-serif;
+        }
+
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(43,159,227,0.6); }
+
+        .services {
+            position: relative; z-index: 1; max-width: 1400px;
+            margin: 6rem auto; padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; text-align: center;
+            margin-bottom: 4rem; color: var(--primary-blue);
+        }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(26,26,26,0.8), rgba(13,13,13,0.9));
+            border: 1px solid rgba(43,159,227,0.3); border-radius: 15px; padding: 2.5rem;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(43,159,227,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .service-card:hover::before { left: 100%; }
+        .service-card:hover {
+            border-color: var(--primary-blue); transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(43,159,227,0.3);
+        }
+
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent-cyan); }
+        .service-card p { line-height: 1.6; color: rgba(224,224,224,0.8); }
+        .checkmark { color: var(--primary-blue); margin-right: 0.5rem; }
+
+        .certifications {
+            position: relative; z-index: 1; max-width: 1400px; margin: 6rem auto; padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(26,26,26,0.6), rgba(13,13,13,0.8));
+            border-top: 2px solid var(--primary-blue); border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; text-align: center; }
+
+        .cert-item {
+            padding: 1.5rem; background: rgba(43,159,227,0.05); border-radius: 10px;
+            border: 1px solid rgba(43,159,227,0.2); transition: all 0.3s ease;
+        }
+
+        .cert-item:hover { background: rgba(43,159,227,0.1); border-color: var(--primary-blue); }
+        .cert-item h4 { font-size: 1.3rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .cert-item p { font-size: 0.9rem; color: rgba(224,224,224,0.7); }
+
+        /* QR CODE */
+        .qr-section {
+            position: relative; z-index: 1; max-width: 1400px;
+            margin: 0 auto 4rem; padding: 0 2rem;
+            display: flex; justify-content: center;
+        }
+
+        .qr-box {
+            background: linear-gradient(135deg, rgba(26,26,26,0.9), rgba(13,13,13,0.95));
+            border: 2px solid var(--primary-blue); border-radius: 20px;
+            padding: 2rem 3rem; display: flex; align-items: center; gap: 2.5rem;
+            box-shadow: 0 10px 40px rgba(43,159,227,0.2); flex-wrap: wrap; justify-content: center;
+        }
+
+        .qr-img {
+            width: 130px; height: 130px; border-radius: 12px;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 0 20px rgba(43,159,227,0.4); display: block;
+        }
+
+        .qr-text h4 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.2rem;
+            color: var(--primary-blue); margin-bottom: 0.8rem;
+        }
+
+        .qr-line {
+            display: flex; align-items: center; gap: 0.7rem;
+            margin-bottom: 0.6rem; font-size: 1rem; color: var(--light-gray);
+        }
+
+        .qr-line svg { width: 18px; height: 18px; color: var(--accent-cyan); flex-shrink: 0; }
+        .qr-line a { color: inherit; text-decoration: none; }
+        .qr-line a:hover { color: var(--accent-cyan); }
+        .qr-hint { font-size: 0.82rem; color: rgba(224,224,224,0.45); font-style: italic; margin-top: 0.5rem; }
+
+        footer {
+            position: relative; z-index: 1; background: var(--darker-bg);
+            border-top: 2px solid var(--primary-blue); padding: 2rem; text-align: center;
+        }
+
+        footer p { color: rgba(224,224,224,0.6); font-size: 0.9rem; }
+
+        @media (max-width: 968px) {
+            .hero { grid-template-columns: 1fr; padding: 4rem 2rem; }
+            .logo { font-size: 2rem; }
+            .nav-links { gap: 1.5rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content h2 { font-size: 1.4rem; }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links { flex-direction: column; gap: 1rem; }
+            .hero-content h1 { font-size: 2rem; }
+            .contact-card { padding: 2rem; }
+        }
+
+        .scroll-reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* MODALE DEVIS */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); z-index: 9999;
+            align-items: center; justify-content: center; backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 2.5rem;
+            width: 90%; max-width: 500px; position: relative;
+            box-shadow: 0 20px 60px rgba(43,159,227,0.4); animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.85) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute; top: 1rem; right: 1.2rem; background: none; border: none;
+            color: var(--light-gray); font-size: 1.8rem; cursor: pointer; line-height: 1; transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--accent-cyan); }
+
+        .modal h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 1.6rem;
+            color: var(--primary-blue); margin-bottom: 0.5rem;
+        }
+
+        .modal p.modal-subtitle { font-size: 0.95rem; color: rgba(224,224,224,0.6); margin-bottom: 1.8rem; }
+
+        .form-group { margin-bottom: 1.2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .form-group label {
+            display: block; font-size: 0.85rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 0.4rem;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(43,159,227,0.4); border-radius: 8px; color: var(--light-gray);
+            font-family: 'Exo 2', sans-serif; font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s; outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary-blue); box-shadow: 0 0 10px rgba(43,159,227,0.3);
+        }
+
+        .form-group textarea { resize: vertical; min-height: 90px; }
+        .form-group select option { background: #1a1a1a; color: var(--light-gray); }
+
+        .btn-submit {
+            width: 100%; padding: 1rem; margin-top: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: white; border: none; border-radius: 50px; font-family: 'Exo 2', sans-serif;
+            font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(43,159,227,0.4); transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(43,159,227,0.6); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .form-message {
+            margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 8px;
+            font-size: 0.9rem; text-align: center; display: none;
+        }
+
+        .form-message.success {
+            display: block; background: rgba(0,200,100,0.15);
+            border: 1px solid rgba(0,200,100,0.5); color: #00c864;
+        }
+
+        .form-message.error {
+            display: block; background: rgba(255,60,60,0.15);
+            border: 1px solid rgba(255,60,60,0.5); color: #ff6464;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <header>
+        <nav>
+            <div class="logo">JDALS</div>
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#competences">Compétences</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <h1>JDALS<br>ÉLECTRICITÉ</h1>
+            <h2>Johan Derouet</h2>
+            <p>Expert en électricité et éclairage public depuis plusieurs années. Je mets mon expertise au service de vos projets d'installation, maintenance, dépannage et études de chantier dans le Maine-et-Loire.</p>
+            <button class="cta-button" onclick="openModal()">Demander un devis</button>
+        </div>
+
+        <div class="contact-card">
+            <h3>Contactez-moi</h3>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <a href="tel:0641753873" style="color:inherit;text-decoration:none;">06 41 75 38 73</a>
+                </div>
+                <div class="contact-item">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    <a href="/cdn-cgi/l/email-protection#dfb5b0b7beb1f1bbbaadb0aabaabf1afadb0b9baacacb6b0b1bab39fb8b2beb6b3f1bcb0b2" style="color:inherit;text-decoration:none;"><span class="__cf_email__" data-cfemail="741e1b1c151a5a1011061b0111005a04061b121107071d1b1a1118341319151d185a171b19">[email&#160;protected]</span></a>
+                </div>
+                <div class="contact-item">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Secteur 49 – Maine-et-Loire
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services scroll-reveal">
+        <h2 class="section-title">Mes Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>⚡ Installation</h3>
+                <p>Installation complète de systèmes électriques pour particuliers et professionnels. Solutions adaptées à vos besoins spécifiques.</p>
+            </div>
+            <div class="service-card">
+                <h3>🔧 Maintenance</h3>
+                <p>Maintenance préventive et corrective de vos installations électriques pour garantir leur bon fonctionnement et votre sécurité.</p>
+            </div>
+            <div class="service-card">
+                <h3>🚨 Dépannage</h3>
+                <p>Intervention rapide pour tous vos dépannages électriques. Service disponible pour résoudre vos problèmes dans les meilleurs délais.</p>
+            </div>
+            <div class="service-card">
+                <h3>📋 Étude & Suivi</h3>
+                <p>Étude complète de vos projets et suivi de chantier professionnel. Accompagnement de A à Z pour la réussite de vos travaux.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="competences" class="services scroll-reveal">
+        <h2 class="section-title">Compétences</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3><span class="checkmark">✓</span> Conduite de travaux</h3>
+                <p>Gestion et coordination de projets électriques de toutes envergures.</p>
+            </div>
+            <div class="service-card">
+                <h3><span class="checkmark">✓</span> Gestion multi-chantiers</h3>
+                <p>Capacité à gérer plusieurs chantiers simultanément avec efficacité.</p>
+            </div>
+            <div class="service-card">
+                <h3><span class="checkmark">✓</span> Maintenance & exploitation</h3>
+                <p>Expertise en maintenance préventive et exploitation des installations.</p>
+            </div>
+            <div class="service-card">
+                <h3><span class="checkmark">✓</span> Études & chiffrage</h3>
+                <p>Réalisation d'études techniques et chiffrage précis de vos projets.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="certifications scroll-reveal">
+        <h2 class="section-title">Habilitations</h2>
+        <div class="cert-grid">
+            <div class="cert-item"><h4>B1</h4><p>Habilitation électrique</p></div>
+            <div class="cert-item"><h4>B2</h4><p>Habilitation électrique</p></div>
+            <div class="cert-item"><h4>BR</h4><p>Habilitation électrique</p></div>
+            <div class="cert-item"><h4>BC</h4><p>Habilitation électrique</p></div>
+            <div class="cert-item"><h4>TST</h4><p>Travaux sous tension (Éclairage public)</p></div>
+        </div>
+    </section>
+
+    <!-- QR CODE -->
+    <section class="qr-section scroll-reveal">
+        <div class="qr-box">
+            <img class="qr-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAgg0lEQVR4nO2dXZIUubKEq7svLArmBQwWgs1GWEnPLgAzeJyzLLruQ52DNU1VpJQeHj9K/97GBkkeIaW6UukZeXc+n09CCOHHfbYAIcRqaFsRQjijbUUI4Yy2FSGEM9pWhBDOaFsRQjijbUUI4Yy2FSGEM9pWhBDOaFsRQjijbUUI4Yy2FSGEM9pWhBDOaFsRQjijbUUI4Yy2FSGEM9pWhBDOaFsRQjijbUUI4Qy0rdwth1da1+Dp6el0On379u39+/evX79+/fr1+/fvv3379ut/efWMTNmUKl5EXiuwDkg2TmcAaOCSINlYksfHxxcr7O7u7vHxkdEzwrgqUkRegdQByoZS+RwkG+vx/fv30+l0d3f38PBwyc/Dw8Plmvz+/btvzwjjqngR4VFUA8qGUvkcJBvr8fbt29Pp9OLKv/zn27dv3XtGGFTFi8grkDog2bhDMuL4I7YIS66P3dzf35+u5eQy78hhxK2eEUZU8SLStfCc/3PUIRbj1sKqufnWVHVM9IBZJPDmzZvz+ex4E4SM+/DwcD6f37x5EyxmZXQ/+RwkG+vBy5Xvke24Kh3ZjgNlQ6l8DpKN9aDmyvcB87gqPWAeBMqGUvkcJBvrwcvVz58/z+fz169f37179+rVq7AZfDHuq1ev3r179/Xr11//azeOIRQBygYvlUjPPHiaHS8Vx+XO0zzVc9gFjPSMaOap4sHTrG3FU3OWczRF846eA243wM53a6aqIsHTrG3FTXOWczRL82zPMYejSM+IZp4qHjzN2lbcNGc5R7M07+g5wM+K9Ixo5qniwdNMdNkiPfPgac5yjiIgmu1WWX5WxgyOaNa18By5bN1gLB32ctzX/3pGdeGLXLZijkFPakc/a0fNRUHuoHg988jKBoJX7Ljm+iUIkJ51ZOulWduKXyppeMXuorl4wSSwcz1gdtGsbcUvlTS8Ygc1T9nDZIeLmUEEnua0bcVui8DTzLOcT4Fc3lMD2T0jdMykjT0Q0haBp3mjZ6gxLSQEnuYz7QW5HSA3I4OMdL6bjpk0sIdA2iLwNG/0DDWmhYTA08x7nX8W5Oh0HLtnhI6ZtLFHQdoi8DRv9Aw1poWEwNPs7qNFQKq3DmL3jNAxkzb2EEhbBJ5mmzSXLe8HMDKu3Zbho0VAqreOwIu0YyZHerjFeteCjVy2E9S5DC7w9LBPPY6TyWMil+3i7KgaK1+pANG2sjifP38+nU5PT0+DO8vDw8PlXuDSUIgdaFtZnA8fPjw+Pp5Op58/f478+8s/e3x8/PDhA1eZWBjkvBfpOSuimpoRbM1TxrOwYpcxmZmFF1FWNniaN3qGGtNCQuioGWFuzqLguXt5bV8QZt6fUjUFT/NGz1BjWkgIHTUjzM1ZICR3L6/tVQJeNdyhahCeZhv5VtzaZkFdl7v58ePHx48f7+7u7u/vB491flFnBi8H2Ofz+fv37/ZhU811xcukjY5sBYXLg6Qde0opfv78eXHu6bnYFPq14tY2i5q/Vnju3vgZZNey7Xgt2MhlKwrB3rgv/dfciFdCN0GCQk13b01VC4Kc9yI9Z0VUUzPC3JxFMVv6IKZqbE1VI0r2wdO80TPUmBYSQkfNCHNzFsjsA+aYqrEFVY2LmYWaSatnqDEtJISOmhHm5iwKnrsXyUZNVXZbBJ7mjZ6hxrSQELI0d8zVFGHWfsdKt0VeR0DaIvA0b/QMNaaFhJCluWOuduBS+XUT30q3AZptAUhbBJ7mjZ6hxrSQELI0d8zVLF6VX218K93GaLY1IG0ReJo3eoYa00JCyNLcMVc7cKn8auNe6TZAsy0AaYvA02wjl237tvHglV9tGJVu2Zprzi9vTdrIZSsOAfVHgXiBXLZijppeWFEKbStigphKt7P1d0U1tK2ICWIq3c7W3xXlQM57kZ6zIlqvbRgd7XAv4GlGxnUM0HFcKBtQY5osHlnTwGuLMJe7GbJs8o6Emfez4GnWtjKhuWZbhLncTZLyUp87MS9ApsDTrG1lQnPNtghzuZshqwSBLzGFEbLgaU6zw2VR09KGtEXgzdFff/31n//85+HhYfzY9fKP3759+++//xr/LNgc6KJqvWtho2dtK8/RtuLFPqcsXjWWAbuWbRZy2Ypm8C6k+Hq0NTeFysi3Iqow6N+VB7c+2lZECcb9u/Lg1kfbiijBuH9XHtz6aFsR+VyMZ1++fPn06dNm7YKnp6dPnz59+fLF3YMr3ECeTmdr9weJd722L5yyWYWsi5SqRtp2xI53IxtQ4+VA4l2v7fmaUzbrsxvpH9ZA2nZkM9VWNqDGy4HEu17bP52yWR8Jq/AZMKRtR+x4N7IBNV4OJN712l6tKTtYF7bjuLy2HbHjtSG6bDtiZ6Omy5bX9pZTlu06zRq3phM6C2RnkMtW3OTWwmL/cUbGveXBHbnskbbiOXrALJbiqgcX8e8G1O5dEOQOKlu7P0i8aluhLXLcyzsq7ogd70Y2oMbLgcSrthXanoGH00hbW3NHRtJ1MxtQ4+VA4lXbCm0RKx3PhtcRO96NbCCNjwYyDWpLImzjEONoW5nAXt9qO97WnYDbHDEO5Fs5GjU9ER3b+nIpqnA+n79//26/AP3jx4+PHz/e3d3d399fXoAebyvG0bYyQc1LtGNbdwYrzl6tsDvYVoyjbWWCmpdox7YMRjy4iH9XjCOX7QRHc2EyHKu53NJTTWd35LKd4GguTHfHKo+FZ6El/FPhdVjvhX1evLOfH0NY+yNhHVEq51isvBAv3qtteSz8SdOOKJUTrFcMkRfv1KfdEZb/AHtHoFS2WHY2jj7LIhFN4RhvkcvbcRYOvp4R0B26y49kGy+fZZ2IBnGPt8LNiO8sHHk97waawi5HejbjmrtENI5vvBWOTn1n4cjrGQGaQqTm6NW2WQxqbhTRIO7xBlSc3aEK4bDrGQFy2SKexVtts8B9ltUiGiFr9hH/7j5VCMdczwhpLts6E3BM8FOAWzO43syORFQt6lw9kMt2Gdepi+ZgXylCxzkapNEsrAxyB7VG7c+jHdl6xWuPwmtrw5sFJKIskEwiFH3EGMzRHjC7xGsPwWu7CWkWkIiyADO5m6KGqDCOZodzjNceiNfWhjcLSERZIJlEIA5c8zLjxWvDU8XrGZnBLM3IuOtFxBvXhvgk6P7+/p9//vn77783gxc10QyKfRCrw/1ZN7QCWVcIz6nB6xmZQXtcnmYb5MylY0Rpq5038NW6oeloWxkHmcGOF6FNx4gW3Faq+Q4vaFsZB5nBjhehTceIslY78Wyl2oaSS8c6uOyLIT4bNSvsrodq2QaxjCPZhaxsyIMbBO0ZU9E/CLx4bRBHsg0vXl6eedmYHdcrIqQtQta4G6qIXZeEF+8mpM908uKl5jnro6W7Pbh2t2A2dpM17oYqYtcl4cVrw/uoOC9eXp6zPrF+NIMfb9wNVcSuaYSNm7XcO74G8QJermzWy6QjYetZ28o2WT/OO760+Qt2ugwWy6Q7AetZ28oGWUeJHUtMPIeXK5v1MulLzHrWtrJNQGVQXl3YLHi5slkvk+4ErGeiy5ZnbbI1M8ZlVwbl1YXNIusqXS+TDNjrOa2W7T5GJl5OSrEPrRwvOrlsB12Y7k7KLPfnYT24CEgmD+LBjVhXvPsrX51ZH4LSke0+eLmyWeOTeDx0ZPuSrM9W6gHzDtjpMljjA7489ID5v2R9ZFt2uN3wcmWDZLJmmVRH1rfDIT1nWb8RspY7LyLegubNb9bKmcqVI7yINuIlds0MOOtFNYSUH+e8cHaIQeLlfXQl4qYgCWpQVrzErmkBZ71Wj5B1lMiLaFYJEi/vE3FBR5hJ8CLaiJfYNS1gxEmZBaL5atv0hbVDDBKvy/xmrZwduXKBF5FNmssWGRdxUmaBaObVlEXYd1OGxIvPb9bKyXq6lLWjNXPZXriVrKwk1qRvXVje/B5n5eQ+Ju/ksm1NsPuzZl1Y+YZjyM8z7/6KN25WRAiRR7Y168J6+YYRzbyekXF9qfD4QttKHJEPmGvWhXXxDSOCeT0j47qTbrbQthJEmB2uZl1YR98wojlr5djjOlLEGlp0W2lho27h/uz4KoPXBIGElTG3QcbN+oNUdFs593npq777s92Ll15SXQj46IoNOHTK7XPRbaXLK+r13Z8dy0TgOr2I+UScDTJu1mF/0W0F8ZUGU9z96Z7JhT2pV3GJFxGAjLtj9l3iLeqyRXyl8VR2fzIyuaon9RZ4vEhEyNztm3083qIu2y4bimBQraYsrmRfRH0t/3LZorg4Gnm1bJep7NuaLEdyWiaROygbZNyY2HF0ZMug5oF9ZEQVZh8ZV9sKih4wMyhoLwiOKH32kUG1rexHdjgSNc2QYREVmX1k3BUMy57pAHquabG34WWSt1G2mP0FiqsjqrStTGjebF7zhUADXibPtNs6nmaw56z6yqRPwSCStK1MaLbb1ixfYMPLJO8Qusvsd/9wHaJK28qEZrttlqMRgZdJnm+YpxnpOatKLjIuL5NpLlseSETxzuDc+rsd6w3zNDNmnz2/yLi8TBZ12e4j95Hkvmngbeu53Iqrcry3vLAj6yorXmRcJF6bdVy2+fU7RXN4XueaEONF7qBsIFmTVDgORPQjmhF4qjr2XPP4kzcu8VgdabzRdSzpDy8R8aDs3fBUdez5XPJhLXVclgkAbG91HUURqxUSAqIZgaeqY881rWW8cYmWRaQxz2SNqMrS7EgR+zaPMM1F6u9mjZuWDbA96ZUwl9iCNbuT/rIZj2DN6fV3s8ZNywbSmPcCu1d4kZp9qfBqPI9IzRXq72aNm5YNpDGv4qxXeJGa3alZy9aFYM3p9Xezxs3KBuSy5VWcZfR5QVVyK2DrWa/+Li//+24V2dmAXLaMZFU7BRBrUG1jzYWdjVouW9VJfU7vaqYAHTWL30DuoHyVHLlO6p/oyLbXo4Ca46apghp7c9g6qVfRA+b4cXdTc9w0VVBjPw5eJ/UFssORNCOZtKk5bpoqqDFN9Ho+SyRXR6sLi/TMG5enKgtiNqDGTNGL+SzBXB2tLuzunnnj8lRlQcwG1Jgmej2fJZKro9WFRXrmjctTlQUxG1Bjmuj1fJY2O7KxcF1YpGfeuDxVWfCyAbls4yuhIuT6LG3sSI9WFxbp2YZ3/Vd71jYCLxuQy5ZXC7Pp9r+DynVSEXhr41bPudRUlQXksm1U+1OqguGtjZoe3Jqq0kDuoLKOEmepeWRboU4qr2fe2kCO85Fxeaqy4GUjrfbnhixvaj5gTq+Tyuv5zPx46G7zAT40Q1UWvFSk1f7ckOVHTTtckTqpvJ55awOxSiLj8lRlwctGy0TXVMXTHCYSgbdxOG7BNeO1B+L1TIwIabxJzRfGUn6sIoKDpSLwbnNcbhhrxmsPweuZGBHY3qDm6+1ZR2uI5kidCLxDWa/j7Zrx2qPweiZGhDS2qVnpNqu2K6I5WCoCr/7uYM8d47WH4PXMiwhy2drUrHSbVdsVGbHX8wVe/d2RnuNz1dfrbLdCIoJctjaMS7fXBXaho+Zcbq2c+D8GMVRzJON5rlXL1qajR3NhH+1VFO8OFnQkI3dQNr46K3g0szSzdXpR4QgzJND/UuGIerbncZBx22wrpwIezSzNMVJdSH/gGhPmL9IfqO/oeRBk0B7bShGPZpZmnkhHitjDYoI9lbH/TfU8FSAybppjFRk3CySiLOdokXiREMJAcjUVb9gLJTa8bKQ5VsFxUwAjSnGOloq3OEiudsQb8/kaA1420hyryLhZIBFlOUfrxFsfJFez8cYU67DhZSPNsYqMmwUSUZZztFS8xUFytSPegPrKNrxsQC5bxLGKjJsF4obMco4ieWbEW5n4a4FdX3lk9Fsg2YBctr0WTS63csXLYe65Rq+1cczqyzx3byeXrRjnaG5XhKxcpc8RsRY1cgeVNW4WSES8tn9yNLcrQpYTusKRLbEWNdQYABk3CyQiXturHM3tipDlhE5/wHzm1aKGGgOAulNAIuK1fcHR3K4IWU7oInY4Yi1qqDEAMq5NR38nQlau7J55bZGeEXi56vhCic2C28q5ob8TIStXdre8tkjPIDxPebvXX20W3FY6+jsRsnJl98xri/SMwMtVx2IdNgtuKx39nQhZubJ75rVFekbg5Sp4xQa4eyGXbZb706ajvxMBiZTnk0YcnOutK7tV/Iplu3shl+2+SplsqulZj5HLnufgXI/4FcseEXLZplXKFE7smMFBFybRwZmEVvsEyB1UzcIIhCSVBskV73X+joUgZiPyUoXEi8DLVdHHkwju2S8OmC5e8aF2Zat2ROSiCokXgZeoomYqBNIclAXJFa9UYscim1MROapC4kXg5Srt8q45bs22jhSxjdtkxcvbCsPinWJiSiYpenlnjVuzrTsVXnIzSIyXdOMWHO8gQ5Oxi6KXd9a4Ndv6UuGVfJuseHnHzJHxjjM3KzMUvbyzxq3Z1p30Kqo2WfHy6g0HxzvI3KzMALlsbXiVMnnj1mzLILeKqg0jGyPx8uoNV5v9C7xrEHLZ1qSjvzPer5z4R3KTLPf2rRFHlHRcdTwWrGXb0d8pB+dz3LMRMPsdVx0R3v1V1rg1D95mNccwl9kofLMRM/tZrmKEuVmZYcFt5VzyMeEOzQGMJjQc32wEzP5VzQGuYoShmdjFgttKTVPTlOa51QEwkdZAHLMRNvtZrmKE8RmZJc28P4WjN7Rm9VYEIK8v4eW5SOFupGckV1mvufB63hgXbN+xBmfB6q0Iu3Jpwctz+mdGkJ7BXKW8lMvreWNcpHHHGpw1q7ci7MvnLXh5rvBRNKRnJFdZJUR4PW+MizTuWIOzZvVWhB2B2PDy7NIzL8+8XPFWHRIR0rMN5LLtWIOzZvVWhCxPqg3iWB3Rdgskz/syifh3R+BFxFuTkMs2ckPJGrE+DE/qMfNcrTYz/gcjy/u7oMvWZj0/a82IOrpOgyv7uvS8Y9yIWUDuoIiyaJrXO7LlHZz7qqp/ZBtZ2der59lxF//8GAIY82IPmJGIqJrbPWC+qtmG94C5+GN+m8NtK+vZ4XimREdVLexwYZV9HXueGneFT7sjbacosmQ7RlRT8wLu7axshNXutVlhW7mQ/gO7Y0Q1NZ9XcW9nZSOgdq/NIttKhePAjhHV1LyGezsrGzG1e20W2VZOBRycHSOqqXkZ93ZWNgJq99pALttq9TtzHZwdI2KQ64TeR2VX8b5ssGv32ixYyxZBFUlxIreDOtyKGs9Gx3yu47Lt7Uq8RnFPKo9g3/B6eUa8vz7ZQO6gkJ4h0X9Q4eCtZkS+qsZBNHc8suVlgxeRjmy3SX9MWDMid1WDgLLbPWDmZYMakR4w36SIqalmRI6qpkA0d7TD8bLBi+hwdjhEVZZRmhdRTVVIz1mmcoSO9Whl3nebhnPSa13UiAqqAntOeQUOpGM92tVeNeS1tcl6CZ0XUU1VSM9ZL+wjdKxHu2BhBF5bG54rMSuimqqQnnn+Th4d69Fm5bmoyxZRxXMljvRwCyQihKzKr3bPPH8nj471aLPynOaylZ81Bl6ekZ5vXQxZm+8IlbXdIivPaS5bnsMvq25oTYLzvHAmxQTIHRTSc8cXyW14eUaIzLOXIxlRxWNkLTEiQnrOyvOaj770gPk5kXl2cSTjwhiMLyffiJCes/K8oFFHdrjnhOXZ0ZGMqOJha+ZFhPSclefMXysGHV2YU+usRURZZa55mez4cobjuI6qNjRDjU2Qns8NXZg7JrJ4ROekj3JQM9nuVVL3cV1UbWiGGpsgPXd0Yc7OX/2Isj4hxstkx8IXvuN6qdrQDDU2QXru6MLcN4uVI+LNwo5cuWQSiShLs/u4Lqps0ly2Nh1dmPsMZpUj4s1CVt1fJKIszR2rERetZXtrS4rfvNlUjmi9WagW0ci4t9zMPPCx1qllK47Mwu7e4Mq+LmhbEe15eHi4/GL//PlzthZ/LkE9PT012lm0rYj2/Pz583Q6PT4+fvjwIVuLPx8+fHh8fDz9L8wWaFsRvbmYuL58+fLp06eaJ98gT09Pnz59+vLlC7uyryfIY6Ssnh1BPJqOMpBcFfHCFjHvh5XX5hFXcdYE6rmorFgQj6YLSK6uqsrywlZ41TDyYyA8IirOmkA9F5UVCOLR9ALJVR0vbIXCCJGfLuMRVHHWBOq5qKxYEI+mC0iuSnlhXZyjiGbeHAUT4MC2BSA9F3XZ1nQWItVMbZA+q3lhcecoIxsdYTuwebMAuWzj66TmUk1PTZQlL/pmEnrAXKoeLUJrj6Zqyj6noyd1QZA7qDr1aBEqvKLum6sK5QuQnhHNaxzZPgfJhg1v3KKPNq/2zCO9oI57rtKLLSE9g7LXeMD8CzAbBrxxixqxwkxNRcr/OeaqSGlIpGdE8wJ2uBcg2bDhjVu0HHFNkGmYWkktClmHsYDrFBmXlw1evNpWJkCmYWrpXCj+2Y1gWrtOkXF52eDFq21lAmQaZtdN/Y+ERdLddYqMy8sGL15tKxMg0zC7dE5OPstS1VsRWrtOkXF52eDFC7lsjwbiSsyqdFuteitCX9cpMq7diueiRuItWsu2JjxXsRhBfwJ94a1nlXGaINjPyvMrH9aDuwzV1wZyB3U0Io8/dWR7CyQbSLxZ4/5JhbWxERHS+IBEPqzVA+ar4AnZF2/WuFdJXxsbEeHKjkOYtUx2OAMkG0i8WeO+oMja2IgIarwcSDYQ27jjuAtU50V6zoqIt307xhvnV4YaLweYzd0vubmP27o6L9hzVkSkm033eCP8ylDj5UCygbyS7ztu9+q8SM9ZEfGOxn3jDfIrQ42XA8kGUkXVfdzW1XmRnrMi4rmZ3eMN8CsTa9l2BMkGUkWVMW7f6ryI+zMrIp6bmREv268sl60bjKWMjDuiJ0uz8KLmDMplK5Yiq5ZtIzdzhCrkDoooK4msbPDG5WmuGdHRjmxno9CRbQJZ2eCNy9NcM6LzwR4w7whED5ijycoGb1ye5poRHc0ONxXCCnY4L4m+OC6dqRnl5Qrp2TEEm7DLjBcvMi5PFaK5pXkf6ZkHqHkxT6p7IDYxrlNSvMi4PFWg5oqvGmZNAwKieT1Pqm8UNjFHmLx4kXF5qhDNRQsjZE0DAqJ5PU+qeyA2Aa5TXrzIuDxViGbEGWxDdNlS87Wbjg5Om/gKuwhs1+nI6PvgrWfeLOxbz7gHVy7bCRgLa70XICpzq3rreoysq1t5wPMjl20mNV2YPNLjzfLgBpOeZ52tTGj2y/rpVOMjUr4R2VQ4ss0qXmGzL5+3qJBnbSsTmqdmd4T0T166R2ST/oD5nFdqy2BXLi3S86xtZULz3NyaFPlAt2NENkXscFmFQW2AvL6kSJ4XfLRZU/NcZn+HdzFkRcRT9YIFSoLb2BFlbaPaVoI0z2X2D0g/3RMjIqm6SusPmNhsBpVy06dtJUjzXGZ/h3fQmBURT9WfdP/cmo0dUdYRtbaVIM1zmf0dXpXcrIh4qq7i4u6tiR1RVn3lNJdtlrMwSzOSZ16V3OO4TnF3b03sWciqryyXLR18se6bYN5Fwr78juOFXRW5bLlk+R154wZE5O6FzXedJpHmKkbuoJCesyKK1Bzjo0XGzYrIxrcAhY5sdWTrQCnNAT5aZNysiDbxLZelB8yMnq1MQo0BWbty6JCOMM1hPlpk3KyIbByLe8oOtzuTyAxqWwlqa8Ob/qyFxauTymMqOVO5QnpGxkVUQT1nyfJLrOe4vLab8H6sZr1cR6qTymNHigZzhfSMjIuognrOkuWXWM9xeW1teEdrWYd2vDqpPGbzM54rpGdkXEQV1HOWLL/Eeo7La2vDc0Nm+Sx5dVJ57EjRYK6QnpFxEVVIz3LZBrW14bkhs3yWvDqpPHie46zVbsNbz3LZNqaj2bwy+9y9I7NQ0zd8SxW+ruSyLcEON+SgczTLZ3l13OJu1/VmwYY4R8gdFNIzJJo2Lq+tzezB6vjxp45sx6k5Cx3nSNtKUNtNZh8Djz+s1QPmcQrOgo17vL0/luqeX5dxeW1tpkxrU9Yy2eHGqTkLHedI2wpLc4sLCUgzMV5kuWdtZ8RLtOGq07bC1Vz8Z/+uBEfEi/w4z7r5Yt1Q5M3Cfs1QYxOkLUIdzfUPKXemmBwvcpSYdVRMPP5MmgVIM9TYBGmLUErzwr5SXryIQzfL3csbN2sWEOSydWtrt1rPV2r3icSLOHSz3L28cTuuOrlsJ6jplRTPuTU7R5u13Hjlsp2A58JcBpd4l3HoFtdMBLmDQnrOighpy3NhZoFnmxEvcvxpK0RU8TTbIDPiFd20ZqgxEBKSLN64myHzXJgpYJkmxrv7Ya0tDxfG0GyDTIdLXHs0Q42BkJBk8ca12/JcmFn4Zb2KHc4WiajiabZBJsUnth2aocYlQ7JZb9kdzRie9TqCo+awwt0RsV3VDDUuGZJNomae+/NQr7Eh8eJDO2oO+MxIQFzXNUONS4Zkk6WZd6R3tJfus0o9+GqO+ShaTHRXNEONS4Zkk6WZ58JEqtXyslEzXmRcd82D2dg7e5nxprlss8jSzHNhItVqbZA+a8abtSaRbPAq7PKQy1aI0vAq7PKQyzYIngvzaHVSa8Zrg2SjpbcbuYPi9cwjS3PNI0xeNmrGi4zrq5lXB7eCt1vbSpzmgg9cqdkoGC8+tKNmXh3cdG+3tpUgzTXtYbxs1IwXGddRM68ObhFvN3Fb6Ygdb8cJtnHMRgvzfhhFZj+rsq+2ld/YDLndz1Eb92wUf9UwmAqzn1LZV9vKb9jxdjw8s/HNRv3CCJFUmP2syr7aVn7DjneHvzO9qqiNezbSa9mOT00A6bOfVdmX6LLtiJ2Nff7OvrVs92Ujt5ZttTWZO/tZlX3lsj00txyc1S7OcVRvuAJy2U7Q0u9o4u7+TK9lW8qDmz77aRV2kTsooqwk7HjXO7Kt+aGvSE8qjwqzryPbEmyGvNgD5nPVz5JGelJ5VJh9PWDOx453PTtczY+oh3lSeRSZ/Sw7HPQkSAgh/kRHtkIIZ7StCCGc0bYihHBG24oQwhltK0IIZ7StCCGc0bYihHBG24oQwhltK0IIZ7StCCGc0bYihHBG24oQwhltK0IIZ7StCCGc0bYihHBG24oQwhltK0IIZ7StCCGc0bYihHDm/wFfDY6Bo0kh+gAAAABJRU5ErkJggg==" alt="QR Code JDALS">
+            <div class="qr-text">
+                <h4>📱 Scannez pour me contacter</h4>
+                <div class="qr-line">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    <a href="tel:0641753873">06 41 75 38 73</a>
+                </div>
+                <div class="qr-line">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <a href="mailto:johan.derouet.professionel@gmail.com">johan.derouet.professionel@gmail.com</a>
+                </div>
+                <p class="qr-hint">Scannez avec votre téléphone pour enregistrer mes coordonnées</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2024 JDALS Électricité - Johan Derouet | Tous droits réservés</p>
+        <p style="margin-top:0.5rem;">Expert Électricité & Éclairage Public - Secteur 49 Maine-et-Loire</p>
+    </footer>
+
+    <!-- MODALE DEVIS -->
+    <div class="modal-overlay" id="devisModal" onclick="handleOverlayClick(event)">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()" aria-label="Fermer">×</button>
+            <h3>⚡ Demande de Devis</h3>
+            <p class="modal-subtitle">Remplissez le formulaire, je vous recontacte rapidement.</p>
+            <form id="devisForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenom">Prénom *</label>
+                        <input type="text" id="prenom" name="prenom" placeholder="Jean" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nom">Nom *</label>
+                        <input type="text" id="nom" name="nom" placeholder="Dupont" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse e-mail *</label>
+                    <input type="email" id="email" name="email" placeholder="jean.dupont@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="tel" id="telephone" name="telephone" placeholder="06 xx xx xx xx">
+                </div>
+                <div class="form-group">
+                    <label for="typeService">Type de prestation *</label>
+                    <select id="typeService" name="typeService" required>
+                        <option value="" disabled selected>Choisir...</option>
+                        <option value="Installation électrique">Installation électrique</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Dépannage">Dépannage</option>
+                        <option value="Éclairage public">Éclairage public</option>
+                        <option value="Étude & Suivi de chantier">Étude & Suivi de chantier</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Description du projet *</label>
+                    <textarea id="message" name="message" placeholder="Décrivez votre projet ou besoin..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit" id="submitBtn">Envoyer ma demande</button>
+                <div class="form-message" id="formMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        const EMAILJS_SERVICE_ID  = 'service_weh1cbe';
+        const EMAILJS_TEMPLATE_ID = 'template_4hz7dtu';
+        const EMAILJS_PUBLIC_KEY  = 'Huc9_UMVJtZLmbPDS';
+
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        function openModal() {
+            document.getElementById('devisModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('devisModal').classList.remove('open');
+            document.body.style.overflow = '';
+            document.getElementById('formMessage').className = 'form-message';
+            document.getElementById('formMessage').textContent = '';
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('devisModal')) closeModal();
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.getElementById('devisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('formMessage');
+            btn.disabled = true;
+            btn.textContent = 'Envoi en cours...';
+            msg.className = 'form-message';
+
+            const templateParams = {
+                prenom:      document.getElementById('prenom').value,
+                nom:         document.getElementById('nom').value,
+                email:       document.getElementById('email').value,
+                telephone:   document.getElementById('telephone').value || 'Non renseigné',
+                typeService: document.getElementById('typeService').value,
+                message:     document.getElementById('message').value,
+                to_email:    'johan.derouet.professionel@gmail.com'
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function() {
+                    msg.className = 'form-message success';
+                    msg.textContent = '✅ Votre demande a bien été envoyée ! Je vous recontacte très vite.';
+                    document.getElementById('devisForm').reset();
+                    btn.textContent = 'Envoyer ma demande';
+                    btn.disabled = false;
+                }, function(error) {
+                    msg.className = 'form-message error';
+                    msg.textContent = '❌ Une erreur est survenue. Appelez-moi directement au 06 41 75 38 73.';
+                    console.error('EmailJS error:', error);
+                    btn.textContent = 'Envoyer ma demande';
+                    btn.disabled = false;
+                });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
